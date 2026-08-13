@@ -1,5 +1,7 @@
 # RooomLog
 
+Version: `0.2.0`
+
 RooomLog is an Apache-2.0 log engine designed as a simpler, search-first alternative to Grafana Loki for teams that need fast full-text and high-cardinality structured search without operating Grafana plus a multi-component log stack.
 
 > Repository name remains `Loki` for compatibility with this project location; the software itself is called **RooomLog**.
@@ -198,7 +200,7 @@ The core currently uses only the Go standard library, keeping the binary and dep
 
 ## API status
 
-This is `v0.1.0`-quality software. Native APIs may evolve before `v1.0`. Loki-compatible endpoints will be kept backward compatible wherever practical.
+This is `v0.2.0`-quality software. Native APIs may evolve before `v1.0`. Loki-compatible endpoints will be kept backward compatible wherever practical.
 
 ## License
 
