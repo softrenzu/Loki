@@ -10,8 +10,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/softrenzu/Loki/internal/httpapi"
-	"github.com/softrenzu/Loki/internal/store"
+	"github.com/softrenzu/RooomLog/internal/httpapi"
+	"github.com/softrenzu/RooomLog/internal/store"
 )
 
 func main() {
@@ -20,10 +20,7 @@ func main() {
 	retentionHours, _ := strconv.Atoi(env("ROOOMLOG_RETENTION_HOURS", "168"))
 	retention := time.Duration(retentionHours) * time.Hour
 	st, err := store.Open(data)
-	if err != nil {
-		slog.Error("open store", "error", err)
-		os.Exit(1)
-	}
+	if err != nil { slog.Error("open store", "error", err); os.Exit(1) }
 	defer st.Close()
 	api := httpapi.New(st, retention)
 	ctx, cancel := context.WithCancel(context.Background())
@@ -32,10 +29,7 @@ func main() {
 	srv := &http.Server{Addr: addr, Handler: api.Handler(), ReadHeaderTimeout: 10 * time.Second, ReadTimeout: 30 * time.Second, WriteTimeout: 0, IdleTimeout: 2 * time.Minute}
 	go func() {
 		slog.Info("RooomLog listening", "addr", addr, "data", data, "retention", retention)
-		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			slog.Error("server", "error", err)
-			os.Exit(1)
-		}
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed { slog.Error("server", "error", err); os.Exit(1) }
 	}()
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
@@ -45,9 +39,4 @@ func main() {
 	defer cc()
 	_ = srv.Shutdown(c)
 }
-func env(k, d string) string {
-	if v := os.Getenv(k); v != "" {
-		return v
-	}
-	return d
-}
+func env(k, d string) string { if v := os.Getenv(k); v != "" { return v }; return d }
