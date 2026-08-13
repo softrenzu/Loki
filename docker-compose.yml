@@ -1,0 +1,11 @@
+services:
+  rooomlog:
+    build: .
+    ports:
+      - "3100:3100"
+    environment:
+      ROOOMLOG_RETENTION_HOURS: "168"
+    volumes:
+      - rooomlog_data:/data
+volumes:
+  rooomlog_data:
