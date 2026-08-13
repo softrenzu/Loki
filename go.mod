@@ -1,3 +1,3 @@
-module github.com/softrenzu/Loki
+module github.com/softrenzu/RooomLog
 
 go 1.23
